@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import 'antd/dist/antd.css'; 
-import ArtistList from './components/ArtistList';
-import SearchBar from './components/SearchBar';
+import SearchPage from './pages/SearchPage'
+// import ArtistList from './components/ArtistList';
+// import SearchBar from './components/SearchBar';
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
-import ArtistDetails from './components/ArtistDetails';
+import ArtistDetailsPage from './pages/ArtistDetailsPage';
 import logo from './logo.svg';
 import './App.css';
+import { Route } from 'react-router-dom'
 const client = new ApolloClient({
   uri: "https://graphbrainz.herokuapp.com/"
 });
@@ -26,9 +28,11 @@ class App extends Component {
   render() {
     return (
       <ApolloProvider client={client}>
-            <SearchBar getArtistName={this.getArtistName}/> 
+            {/* <SearchBar getArtistName={this.getArtistName}/>  */}
         {/* <ArtistList searchQuery={this.state.artistSearchQuery}/> */}
-  <ArtistDetails/>
+  {/* <ArtistDetails/> */}
+  <Route exact path="/" component={SearchPage} />
+  <Route exact path="/artist-details/:mbid" component={ArtistDetailsPage}  />
       </ApolloProvider>
     );
   }

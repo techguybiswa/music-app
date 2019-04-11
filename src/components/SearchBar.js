@@ -108,7 +108,7 @@ class SearchBar extends Component {
                    {this.state.suggestions.map((eachArtist, index) => {
               return (
                 <AutoComplete.Option key={index} value={eachArtist}>
-                  {eachArtist} 
+                {eachArtist} 
                 </AutoComplete.Option>
               );
             })}

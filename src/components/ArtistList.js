@@ -4,8 +4,8 @@ import { Query, ApolloConsumer } from "react-apollo";
 import gql from "graphql-tag";
 import { Row, Col , Avatar, Skeleton, Spin, Tag} from 'antd';
 import "../index.css";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import ArtistDetails from './ArtistDetails';
+import { NavLink } from 'react-router-dom'
+import { Route } from "react-router-dom";
 
 const GET_ARTIST_LIST = gql`
 query getData($query: String!) {
@@ -18,6 +18,7 @@ query getData($query: String!) {
             thumbnail
           }
           name
+          mbid
           spotify {
             images {
               url
@@ -56,19 +57,26 @@ query getData($query: String!) {
 
 class ArtistList extends Component {
   constructor(props) {
-		super(props)
-
-		this.state = { 
+    super(props)
+   
+    this.state = { 
       artists: null,
-      artistSearchName: false
+      artistSearchName: false,
+      favourites: [],
     }
+    this.fetchListOfFavourite = this.fetchListOfFavourite.bind(this);
   }
-  // setArtistName(name) {
-  //   console.log("setArtistName called");
-  //   this.setState({
-  //    artistSearchName : name
-  //   })
-  // }
+
+  fetchListOfFavourite() {
+    let listOfFavourite= [];
+    for(var i=0;i<localStorage.length;i++) {
+      let eachFavourite = localStorage.getItem(localStorage.key(i));
+      eachFavourite = JSON.parse(eachFavourite);
+      listOfFavourite.push(eachFavourite)
+    }
+   console.log("listOfFavourite " , listOfFavourite);
+    return listOfFavourite;
+  }
   componentDidUpdate(prevProps, prevState){  
     console.log("I am here");
     console.log(prevProps.searchQuery + " " +this.props.searchQuery)
@@ -78,6 +86,8 @@ class ArtistList extends Component {
         this.setState({
           artistSearchName : this.props.searchQuery
         })
+        // window.location.href.push("/"+this.state.artistSearchName);
+        console.log("this.props"  , this.props);
         console.log("222222 " + this.state.artistSearchName);
      }
     }
@@ -88,10 +98,25 @@ class ArtistList extends Component {
     this.setState(() => ({ artists: data }));
   }
    
+ componentDidMount() {
+   let listOfFavourite = this.fetchListOfFavourite();
+   console.log("fav " , listOfFavourite);
+   this.setState({
+    favourites: listOfFavourite
+   })
+ }
   render() {
     return (
     <div style={{background: 'black', height: '100vh'}}>
-  
+    <h1 style={{color: 'white'}}>
+      Show all bakchodi here
+      {this.state.favourites.map((eachArtist) => (
+        <li>
+          {eachArtist.name}
+        </li>
+      ))}
+
+    </h1>
        { this.state.artistSearchName &&
         <Query
         query={GET_ARTIST_LIST}
@@ -138,9 +163,7 @@ class ArtistList extends Component {
       
       </Col>
       <Col span={14} >
-<Router>
-        <Link to="/artist-details/">
-
+      <NavLink  to={`artist-details/${eachArtist.node.mbid}`} mbid={eachArtist.node.mbid}>
         <Row className="artist-container">
             <Col span={2} >
             <img style={{width: '100%' , borderRadius: '50%'}} src={eachArtist.node.spotify.images[2].url}/>
@@ -151,10 +174,7 @@ class ArtistList extends Component {
 
             </Col>
         </Row>
-        </Link>
-        <Route path="/artist-details/" exact component={ArtistDetails} />
-
-        </Router>
+      </NavLink>
       </Col>
       <Col span={5} >
       
