@@ -6,7 +6,21 @@ import { Row, Col , Avatar, Skeleton, Spin, Tag} from 'antd';
 import "../index.css";
 import { NavLink } from 'react-router-dom'
 import { Route } from "react-router-dom";
-
+const GET_TOP_ARTISTS = gql`
+query getData {
+  lastFM{
+    chart{
+      topArtists{
+        nodes{
+          name
+          image
+          mbid
+        }
+      }
+    }
+  }
+  }
+`;
 const GET_ARTIST_LIST = gql`
 query getData($query: String!) {
   search {
@@ -107,16 +121,87 @@ class ArtistList extends Component {
  }
   render() {
     return (
-    <div style={{background: 'black', height: '100vh'}}>
-    <h1 style={{color: 'white'}}>
-      Show all bakchodi here
-      {this.state.favourites.map((eachArtist) => (
-        <li>
-          {eachArtist.name}
-        </li>
-      ))}
+    <div style={{background: 'black', height: '100%'}}>
+    { !this.state.artistSearchName  &&
+       <div>
+         <Row>
+       <Col span={5}>
 
-    </h1>
+       </Col>
+       <Col span={14}>
+       <h2 style={{fontFamily: 'PingFang SC' , color: 'white', paddingTop: '20px'}}>My Favourite Artists</h2>
+       </Col>
+     </Row>
+     
+
+  <Row>
+ 
+  <Col span={5}>
+
+</Col>
+<Col span={14}>
+  <Row>
+{    
+  this.state.favourites.map((eachArtist) => (
+        (<Col span={6} style={{margin: '15px', height: '250px'}}>
+              <NavLink  to={`artist-details/${eachArtist.mbid}`} mbid={eachArtist.mbid}>
+
+        <div className="album-image" style={{  backgroundImage: `url(${eachArtist.url})`, backgroundSize : 'cover', backgroundRepeat: 'no-repeat', height: '200px'  }}>
+        </div>
+        </NavLink>
+        <p style={{color: "white", fontSize: '15px' , fontFamily: 'PingFang SC',}}>
+        {eachArtist.name} <br/>
+        </p>
+       </Col>)
+    ))
+}
+  </Row>
+</Col>
+       <Col span={5}>
+
+</Col>
+</Row>
+
+
+<h1>BSDK</h1>
+<Row>
+ 
+ <Col span={5}>
+
+</Col>
+<Col span={14}>
+ <Row>
+
+  <Query query={GET_TOP_ARTISTS}>
+    {({ loading, error, data }) => {
+      if (loading) return "Loading...";
+      if (error) return `Error! ${error.message}`;
+
+      return (
+          data.lastFM.chart.topArtists.nodes.map(eachArtist => (
+            (<Col span={6} style={{margin: '15px', height: '250px'}}>
+            <NavLink  to={`artist-details/${eachArtist.mbid}`} mbid={eachArtist.mbid}>
+
+      <div className="album-image" style={{  backgroundImage: `url(${eachArtist.image})`, backgroundSize : 'cover', backgroundRepeat: 'no-repeat', height: '200px'  }}>
+      </div>
+      </NavLink>
+      <p style={{color: "white", fontSize: '15px' , fontFamily: 'PingFang SC',}}>
+      {eachArtist.name} <br/>
+      </p>
+     </Col>)
+          ))
+      );
+    }}
+  </Query>
+ </Row>
+</Col>
+      <Col span={5}>
+
+</Col>
+</Row>
+       </div>
+    }
+    
        { this.state.artistSearchName &&
         <Query
         query={GET_ARTIST_LIST}

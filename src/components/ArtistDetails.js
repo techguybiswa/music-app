@@ -160,9 +160,7 @@ class ArtistDetails extends Component {
 
                     {
                         data.lookup.artist.releases.nodes.map((eachRelease) => (
-                           
                             (eachRelease.coverArtArchive.images.length > 0) && 
-
                             (<Col span={4} style={{margin: '20px', height: '250px'}}>
                             <div className="album-image" style={{  backgroundImage: `url(${eachRelease.coverArtArchive.images[0].image}})`, backgroundSize : 'cover', backgroundRepeat: 'no-repeat', height: '200px'  }}>
                             </div>
