@@ -72,6 +72,13 @@ class SearchBar extends Component {
   render() {
     return (
         <ApolloConsumer>
+          {/* {({ loading, error, data })  => {
+              if(loading) {
+                return (<h1>HOLAAAAAAAAAAA</h1>)
+              }
+          }
+         
+        } */}
 {
     client => (
         <div className="navbar">

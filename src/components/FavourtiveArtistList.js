@@ -3,15 +3,10 @@ import React from 'react';
 import gql from "graphql-tag";
 import { Row, Col , Avatar, Skeleton, Spin, Tag} from 'antd';
 import "../index.css";
-import { NavLink } from 'react-router-dom'
-
-
-
-
+import { Link } from 'react-router-dom'
 class FavouriteArtistList extends Component {
   constructor(props) {
     super(props)
-   
     this.state = { 
       favourites: [],
     }
@@ -77,14 +72,17 @@ class FavouriteArtistList extends Component {
 {    
   this.state.favourites.map((eachArtist) => (
         (<Col span={4} style={{margin: '15px', height: '250px'}}>
-              <NavLink  to={`artist-details/${eachArtist.mbid}`} mbid={eachArtist.mbid}>
+              <Link  to={`/artist-details/${eachArtist.mbid}`} mbid={eachArtist.mbid}>
 
         <div className="album-image" style={{  backgroundImage: `url(${eachArtist.url})`, backgroundSize : 'cover', backgroundRepeat: 'no-repeat', height: '200px'  }}>
         </div>
-        </NavLink>
+        </Link>
         <p style={{color: "white", fontSize: '15px' , fontFamily: 'PingFang SC',}}>
         {eachArtist.name} <br/>
+        <span style={{color: '#AAAAAA'}}>Music Artist </span> 
+
         </p>
+
        </Col>)
     ))
 }

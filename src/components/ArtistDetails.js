@@ -2,7 +2,7 @@ import { Component } from 'react'
 import  React from 'react';
 import { Query, ApolloConsumer } from "react-apollo";
 import gql from "graphql-tag";
-import { AutoComplete , Spin} from 'antd';
+import { AutoComplete , Spin, message} from 'antd';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { NavLink } from 'react-router-dom'
 import FavouriteArtistList from './FavourtiveArtistList'
@@ -58,10 +58,14 @@ class ArtistDetails extends Component {
         // this.clearSuggestions = this.clearSuggestions.bind(this);
         this.setAsFavourite = this.setAsFavourite.bind(this);
         this.goBack = this.goBack.bind(this);
+        this.setFavouriteButtonStatus = this.setFavouriteButtonStatus.bind(this);
     }
+
     setAsFavourite(name , url) {
         if(this.state.favourite) {
             localStorage.removeItem(this.state.mbid, JSON.stringify(artistDetail));
+            message.warning('Removed from favourite');
+
             this.setState({
                 btnText: "Add as favourite",
                 favourite: false,
@@ -70,6 +74,7 @@ class ArtistDetails extends Component {
 
         } else {
             console.log("Setting " + name + " url " + url );
+            message.success('Added as favourite');
             this.setState({
                 btnText: "Added as favourite",
                 favourite: true,
@@ -79,9 +84,6 @@ class ArtistDetails extends Component {
             var artistDetail = {'name': name, 'url': url, 'mbid': this.state.mbid};
             localStorage.setItem(this.state.mbid, JSON.stringify(artistDetail));
         }
-    
-
-
         console.log(this.state);
     }
     goBack() {
@@ -89,38 +91,69 @@ class ArtistDetails extends Component {
         // window.location.href="../";
         window.history.back();
     }
+    setFavouriteButtonStatus() {
+        let mbid = window.location.href;
+        mbid = mbid.split("/").reverse()[0];
+     //    mbid = mbid.split("")
+     this.setState({
+         mbid: mbid,
+       
+     })
+     if(localStorage.getItem(mbid)) {
+         this.setState({
+             btnText: "Added as favourite",
+             favourite: true,
+         })
+     } else {
+         
+         this.setState({
+             btnText: "Add as favourite",
+             favourite: false
+         })
+     }
+        console.log(mbid);
+    }
    componentWillMount()
    {
-       let mbid = window.location.href;
-       mbid = mbid.split("/").reverse()[0];
-    //    mbid = mbid.split("")
-    this.setState({
-        mbid: mbid,
-      
-    })
-    if(localStorage.getItem(mbid)) {
-        this.setState({
-            btnText: "Added as favourite",
-            favourite: true,
-        })
-    } else {
-        this.setState({
-            btnText: "Add as favourite",
-            favourite: false
-        })
-    }
-       console.log(mbid);
+       this.setFavouriteButtonStatus();
+       message.config({
+        bottom: 200,
+        duration: 2,
+        maxCount: 3,
+      });
     // console.log("mbid is " + mbid[0]);
     
 }
+
+componentDidUpdate(prevProps, prevState){  
+    console.log("Updating Shit.....");
+    let mbid = window.location.href;
+    mbid = mbid.split("/").reverse()[0];
+ //    mbid = mbid.split("")
+     console.log(prevState  );
+    if(prevState.mbid!==mbid){
+        this.setFavouriteButtonStatus();
+
+        window.scrollTo(0, 0);
+
+        this.setState({
+            mbid: mbid,
+          
+        })
+    }
+ }
+
+
 componentDidMount() {
     console.log("State is " , this.state);
+    window.scrollTo(0, 0);
+
 }
 
   render() {
     return (
         <div>
-    
+
 <Query
         query={GET_ARTIST_DETAILS}
         variables={{ mbid: this.state.mbid}}
@@ -131,7 +164,7 @@ componentDidMount() {
               {/* <Col span={}>
               </Col> */}
               <Col span={24}>
-              <Spin spinning={true } tip="Fetching your data..." style={{padding: '20px'}}>
+              <Spin spinning={true } tip="Fetching artist data..." style={{padding: '20px'}}>
                 {/* <Skeleton active avatar title /> */}
                 <div style={{width: '100%' , height: '100vh', backgroundColor: 'black', }}
                 ></div>
@@ -163,8 +196,13 @@ componentDidMount() {
                 {data.lookup.artist.theAudioDB.biography}
                 </p>
                 <Button size={"large"}   onClick={() => this.goBack()}><Icon type="arrow-left" />Go Back</Button>
-                <Button size={"large"} style={{marginLeft: "20px"}} 
-              onClick={() => this.setAsFavourite(data.lookup.artist.name,data.lookup.artist.fanArt.backgrounds[0].url )}> <Icon type="heart" /> {this.state.btnText} </Button>
+
+                <Button size={"large"} style={{marginLeft: "10px"}} 
+              onClick={() => this.setAsFavourite(data.lookup.artist.name,data.lookup.artist.fanArt.backgrounds[0].url )}>
+                {!this.state.favourite ?     <Icon type="heart" theme="twoTone" twoToneColor="#eb2f96" /> :     <Icon type="check-circle" theme="twoTone"  twoToneColor="#eb2f96" />}
+               {this.state.btnText} </Button>
+                              <NavLink to="/"><Button style={{marginLeft: "10px"}}  size={"large"}><Icon type="home" />Home</Button></NavLink>
+
                 </div>
                         </div>) : (<div style={{width: '100%', height: '500px' ,backgroundImage: `url(https://www.desktopbackground.org/p/2013/01/20/517949_headphones-red-backgrounds-image-of-music-hd-wallpapers_1920x1080_h.jpg)`, backgroundSize : 'cover', backgroundRepeat: 'no-repeat', 
                 filter: 'grayscale(0%)'
@@ -183,6 +221,8 @@ componentDidMount() {
                         </div>)
           }
         </div>
+        <FavouriteArtistList shouldRefetch={this.state.favouriteEdited}/>
+
         <Row>
                 <Col span={1}>
 
@@ -217,7 +257,6 @@ componentDidMount() {
           );
         }}
       </Query>
-      <FavouriteArtistList shouldRefetch={this.state.favouriteEdited}/>
 
 
 

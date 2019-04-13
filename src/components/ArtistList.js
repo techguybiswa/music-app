@@ -56,6 +56,8 @@ class ArtistList extends Component {
   }
    
  componentDidMount() {
+  window.scrollTo(0, 0);
+
    let listOfFavourite = this.fetchListOfFavourite();
    console.log("fav " , listOfFavourite);
    this.setState({
@@ -93,7 +95,7 @@ class ArtistList extends Component {
         {/* <Col span={}>
         </Col> */}
         <Col span={24}>
-        <Spin spinning={true } tip="Fetching your data..." style={{padding: '20px' , }}>
+        <Spin spinning={true } tip="Fetching top artist list data..." style={{padding: '20px' , }}>
           {/* <Skeleton active avatar title /> */}
           <div style={{width: '100%' , height: '70px', backgroundColor: 'black', filter: 'opacity(50%)' , margin: '100px'}}
           ></div>
@@ -126,6 +128,7 @@ class ArtistList extends Component {
     </NavLink>
     <p style={{color: "white", fontSize: '15px' , fontFamily: 'PingFang SC',}}>
     {eachArtist.name} <br/>
+    <span style={{color: '#AAAAAA'}}>Music Artist </span> 
     </p>
    </Col>)
           
