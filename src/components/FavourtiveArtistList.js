@@ -78,7 +78,7 @@ class FavouriteArtistList extends Component {
         </div>
         </Link>
         <p style={{color: "white", fontSize: '15px' , fontFamily: 'PingFang SC',}}>
-        {eachArtist.name} <br/>
+        <b>{eachArtist.name}</b> <br/>
         <span style={{color: '#AAAAAA'}}>Music Artist </span> 
 
         </p>
