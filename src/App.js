@@ -7,6 +7,7 @@ import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
 import ArtistDetailsPage from './pages/ArtistDetailsPage';
 import logo from './logo.svg';
+import ArtistSearchResult from './components/ArtistSearchResult'
 import './App.css';
 import { Route } from 'react-router-dom'
 const client = new ApolloClient({
@@ -32,7 +33,9 @@ class App extends Component {
         {/* <ArtistList searchQuery={this.state.artistSearchQuery}/> */}
   {/* <ArtistDetails/> */}
   <Route exact path="/" component={SearchPage} />
-  <Route exact path="/artist-details/:mbid" component={ArtistDetailsPage}  />
+  <Route exact path="/search" component={SearchPage} />
+
+  <Route exact path="/artist-details/:mbid" component={ArtistDetailsPage}   />
       </ApolloProvider>
     );
   }

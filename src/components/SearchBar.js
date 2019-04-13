@@ -4,6 +4,7 @@ import { Query, ApolloConsumer } from "react-apollo";
 import gql from "graphql-tag";
 import { AutoComplete , Spin} from 'antd';
 import PropTypes from 'prop-types';
+import { NavLink } from 'react-router-dom'
 
 import "../index.css";
 // import "https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css";
@@ -26,7 +27,10 @@ class SearchBar extends Component {
             suggestions: []
         });
         console.log(value);
-        this.props.getArtistName(value);
+        window.location.href="/search?q="+value;
+
+        // this.props.getArtistName(value);
+
     }
     clearSuggestions() {
         this.setState({
@@ -65,14 +69,6 @@ class SearchBar extends Component {
           });
         }
       };
-
-          //    const doSomeMagic = function () {
-    //        return function () {
-               
-    //        }
-    //    }
-    
-        // const betterFunction = doSomeMagic(handleSearch, 300);
   render() {
     return (
         <ApolloConsumer>
@@ -108,7 +104,8 @@ class SearchBar extends Component {
                    {this.state.suggestions.map((eachArtist, index) => {
               return (
                 <AutoComplete.Option key={index} value={eachArtist}>
-                {eachArtist} 
+                  {/* <NavLink to="/login" >{eachArtist} </NavLink> */}
+                  {eachArtist} 
                 </AutoComplete.Option>
               );
             })}
