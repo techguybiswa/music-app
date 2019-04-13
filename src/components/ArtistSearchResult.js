@@ -78,12 +78,16 @@ class ArtistSearchResult extends Component {
     return listOfFavourite;
   }
   componentWillMount() {
+    let searchLocation = window.location.href;
+    searchLocation = searchLocation.split("=");
+    console.log("searchLocation" + searchLocation.length);
+
     if(this.props.searchQuery ) {
       console.log("ONE");
       this.setState({
         artistSearchName :this.props.searchQuery
       })
-    } else if(window.location.href.length>22){
+    } else if(searchLocation.length==2){
       console.log("TWO");
       let searchQuery = window.location.href;
       console.log(window.location.href.length);
@@ -128,7 +132,7 @@ class ArtistSearchResult extends Component {
  }
   render() {
     return (
-    <div style={{background: 'black', height: '100%'}}>
+    <div style={{background: 'black', height: '100%',}}>
      { this.state.artistSearchName &&
         <Query
         query={GET_ARTIST_LIST}

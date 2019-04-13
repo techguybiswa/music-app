@@ -17,6 +17,7 @@ class SearchBar extends Component {
         searchQuery: null,
         suggestions: [],
         timer: [],
+        background: "rgb(0, 0, 0, 0.0)"
         }
         this.onSelect = this.onSelect.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
@@ -36,6 +37,16 @@ class SearchBar extends Component {
         this.setState({
             suggestions: []
         });
+    }
+    listenScrollEvent = e => {
+      if (window.scrollY > 30) {
+        this.setState({background: '#333'})
+      } else {
+        this.setState({background: 'rgba(0,0,0,0.0)'})
+      }
+    }
+    componentDidMount() {
+      window.addEventListener('scroll', this.listenScrollEvent)
     }
     handleSearch = async ({ value, client }) => {
         this.setState({
@@ -68,7 +79,7 @@ class SearchBar extends Component {
             suggestions: suggestions ? suggestions : []
           });
         }
-      };
+      }
   render() {
     return (
         <ApolloConsumer>
@@ -81,7 +92,8 @@ class SearchBar extends Component {
         } */}
 {
     client => (
-        <div className="navbar">
+        <div className="navbar" style={{position: 'fixed', top: '0px', zIndex: '999', background: this.state.background
+      }}>
 
         <Row>
          <Col span={5} >
@@ -91,9 +103,11 @@ class SearchBar extends Component {
          </Col>
          <Col span={14} style={{ paddingTop: '5px'}} >
          <AutoComplete
+         id="searchInput"
        size="large"
        onSelect={this.onSelect}
        onFocus={this.clearSuggestions}
+       defaultOpen={true}
 
          style={{ width: '100%', }}
         //  dataSource={this.state.suggestions}

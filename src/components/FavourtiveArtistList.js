@@ -43,7 +43,7 @@ class FavouriteArtistList extends Component {
  }
   render() {
     return (
-    <div style={{background: 'black', height: '100%'}}>
+    <div style={{background: 'black', height: '100%',}}>
 
     { (!this.state.artistSearchName )  &&
        <div>

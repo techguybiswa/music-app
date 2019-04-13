@@ -25,9 +25,12 @@ class SearchPage extends Component {
   }
   render() {
     return (
-           <div>
+           <div style={{backgroundColor: 'black'}}>
               <SearchBar getArtistName={this.getArtistName}/> 
-        <ArtistList searchQuery={this.state.artistSearchQuery}/>
+              <div style={{paddingTop: '80px'}}>
+              <ArtistList searchQuery={this.state.artistSearchQuery}/>
+
+              </div>
              </div>
     );
   }

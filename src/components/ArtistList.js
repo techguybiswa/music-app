@@ -87,8 +87,8 @@ class ArtistList extends Component {
 
 </Col> 
 <Col span={22}>
- <Row>
- <h2 style={{fontFamily: 'PingFang SC' , color: 'white', paddingTop: '20px'}}>Top Artist Suggestions</h2>
+ <Row style={{marginTop: '80px'}}>
+ <h2 style={{fontFamily: 'PingFang SC' , color: 'white', }}>Top Artist Suggestions</h2>
 
 {
   <Query query={GET_TOP_ARTISTS}>

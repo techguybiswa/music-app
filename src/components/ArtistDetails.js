@@ -9,6 +9,7 @@ import FavouriteArtistList from './FavourtiveArtistList'
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import 'react-lazy-load-image-component/src/effects/opacity.css';
+import { LazyLoadComponent } from 'react-lazy-load-image-component';
 
 import "../index.css";
 import { Row, Col, Icon, Button } from 'antd';
@@ -187,7 +188,8 @@ componentDidMount() {
    
           {
               (data.lookup.artist.fanArt.backgrounds[0]) ? 
-                (<div style={{width: '100%', height: '500px' ,backgroundImage: `url(${data.lookup.artist.fanArt.backgrounds[0].url})`, backgroundSize : 'cover', backgroundRepeat: 'no-repeat', 
+                (<LazyLoadComponent   effect="opacity">
+                <div style={{width: '100%', height: '500px' ,backgroundImage: `url(${data.lookup.artist.fanArt.backgrounds[0].url})`, backgroundSize : 'cover', backgroundRepeat: 'no-repeat', 
                 filter: 'grayscale(0%)'
                 }}>
                     
@@ -207,7 +209,7 @@ componentDidMount() {
                               <NavLink to="/"><Button style={{marginLeft: "10px"}}  size={"large"}><Icon type="home" />Home</Button></NavLink>
 
                 </div>
-                        </div>) : (<div style={{width: '100%', height: '500px' ,backgroundImage: `url(https://www.desktopbackground.org/p/2013/01/20/517949_headphones-red-backgrounds-image-of-music-hd-wallpapers_1920x1080_h.jpg)`, backgroundSize : 'cover', backgroundRepeat: 'no-repeat', 
+                        </div></LazyLoadComponent>) : (<div style={{width: '100%', height: '500px' ,backgroundImage: `url(https://www.desktopbackground.org/p/2013/01/20/517949_headphones-red-backgrounds-image-of-music-hd-wallpapers_1920x1080_h.jpg)`, backgroundSize : 'cover', backgroundRepeat: 'no-repeat', 
                 filter: 'grayscale(0%)'
                 }}>
                     
