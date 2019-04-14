@@ -118,10 +118,6 @@ class ArtistSearchResult extends Component {
     }
  }
 
-  onDogFetched = data => {
-    console.log(data);
-    this.setState(() => ({ artists: data }));
-  }
    
  componentDidMount() {
    let listOfFavourite = this.fetchListOfFavourite();
