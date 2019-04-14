@@ -100,7 +100,7 @@ class ArtistList extends Component {
         <Col span={24}>
         <Spin spinning={true } tip="Fetching top artist list data..." style={{padding: '20px' , }}>
           {/* <Skeleton active avatar title /> */}
-          <div style={{width: '100%' , height: '70px', backgroundColor: 'black', filter: 'opacity(50%)' , margin: '100px'}}
+          <div style={{width: '100%' , height: '250px', backgroundColor: 'black', filter: 'opacity(50%)' , margin: '100px'}}
           ></div>
           </Spin>
         </Col>

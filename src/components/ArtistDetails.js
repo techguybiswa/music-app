@@ -219,9 +219,8 @@ componentDidMount() {
                 <h1 style={{color: 'white', fontSize: '32px'}}> {data.lookup.artist.name} </h1>
                 <p style={{color: 'white', maxHeight: '100px', overflow: 'scroll'}}>
                 </p>
-                <Button size={"large"}  ><Icon type="arrow-left" />Go Back</Button>
-                <Button size={"large"} style={{marginLeft: "20px"}} 
-              onClick={() => this.setAsFavourite(data.lookup.artist.name,data.lookup.artist.fanArt.backgrounds[0].url )}> <Icon type="heart" /> {this.state.btnText} </Button>
+                <Button size={"large"}   onClick={() => this.goBack()}><Icon type="arrow-left" />Go Back</Button>
+                              <NavLink to="/"><Button style={{marginLeft: "10px"}}  size={"large"}><Icon type="home" />Home</Button></NavLink>
                 </div>
                         </div>)
           }
@@ -233,7 +232,10 @@ componentDidMount() {
 
                 </Col>
                 <Col span={22}>
-                <h2 style={{fontFamily: 'PingFang SC' , color: 'white', marginTop: '25px'}}>Top Releases of "{data.lookup.artist.name}"</h2>
+                {
+                    (data.lookup.artist.description) ?                 <h2 style={{fontFamily: 'PingFang SC' , color: 'white', marginTop: '25px'}}>Top Releases of "{data.lookup.artist.name}"</h2> :                 <h2 style={{fontFamily: 'PingFang SC' , height: '300px' ,color: 'white', marginTop: '25px'}}>Not much data found for "{data.lookup.artist.name}"</h2>
+
+                }
                
                 <Row>
 
