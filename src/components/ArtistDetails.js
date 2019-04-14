@@ -233,7 +233,7 @@ componentDidMount() {
                 </Col>
                 <Col span={22}>
                 {
-                    (data.lookup.artist.description) ?                 <h2 style={{fontFamily: 'PingFang SC' , color: 'white', marginTop: '25px'}}>Top Releases of "{data.lookup.artist.name}"</h2> :                 <h2 style={{fontFamily: 'PingFang SC' , height: '300px' ,color: 'white', marginTop: '25px'}}>Not much data found for "{data.lookup.artist.name}"</h2>
+                    (data.lookup.artist.releases.nodes.length) ? (<h2 style={{fontFamily: 'PingFang SC' , color: 'white', marginTop: '25px'}}>Top Releases of "{data.lookup.artist.name}"</h2>) :(<h2 style={{fontFamily: 'PingFang SC' , height: '300px' ,color: 'white', marginTop: '25px'}}>Not much data found for "{data.lookup.artist.name}"</h2>)
 
                 }
                
