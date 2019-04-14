@@ -15,22 +15,26 @@ class SearchBar extends Component {
 		super(props)
         this.state = { 
         searchQuery: null,
-        suggestions: [],
+        suggestions: ['No data found'],
         timer: [],
-        background: "rgb(0, 0, 0, 0.0)"
+        background: "rgb(0, 0, 0, 0.0)",
+        shouldSearchValue: true,
         }
         this.onSelect = this.onSelect.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
         this.clearSuggestions = this.clearSuggestions.bind(this);
     }
     onSelect(value) {
+      if(this.state.shouldSearchValue) {
         this.setState({
-            suggestions: []
-        });
-        console.log(value);
-        window.location.href="/search?q="+value;
+          suggestions: []
+      });
+      console.log(value);
+      window.location.href="/search?q="+value;
 
-        // this.props.getArtistName(value);
+      // this.props.getArtistName(value);
+      }
+      
 
     }
     clearSuggestions() {
@@ -51,7 +55,8 @@ class SearchBar extends Component {
     handleSearch = async ({ value, client }) => {
         this.setState({
             searchQuery: value,
-            suggestions: []
+            suggestions: ["Searching..."],
+            shouldSearchValue: false,
         });
 
       console.log("Firing quesry with: " + this.state.searchQuery);
@@ -74,10 +79,19 @@ class SearchBar extends Component {
           });
           var suggestions = data.search.artists.edges.map(function(eachArtist) {return eachArtist.node.name;});
           suggestions  = [...new Set(suggestions)];
+          if(suggestions.length) {
+            this.setState({
+              suggestions: suggestions,
+              shouldSearchValue: true
+            });
+          } else {
+            this.setState({
+              suggestions: ["No data found"],
+              shouldSearchValue: false
+            });
+          }
         //   suggestions.length= 5;
-          this.setState({
-            suggestions: suggestions ? suggestions : []
-          });
+        
         }
       }
   render() {
@@ -120,7 +134,7 @@ class SearchBar extends Component {
                  that.handleSearch({value, client})
              }, 300)
          }}           
-         filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
+        //  filterOption={(inputValue, option) => option.props.children.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1}
        >
                    {this.state.suggestions.map((eachArtist, index) => {
               return (
